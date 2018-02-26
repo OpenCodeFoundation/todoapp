@@ -24,12 +24,30 @@ namespace Todo.Web
             services.AddMvc();
         }
 
+        // This method gets called when Development Environment is used
+        // Use this method to set Development services, like Development database
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            // Configure Default services
+            ConfigureServices(services);
+        }
+
+        public void ConfigureTestingServices(IServiceCollection services)
+        {
+            // Configure Default services
+            ConfigureServices(services);
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+
+                // This show Run migration button if migration is not done
+                app.UseDatabaseErrorPage();
             }
             else
             {
