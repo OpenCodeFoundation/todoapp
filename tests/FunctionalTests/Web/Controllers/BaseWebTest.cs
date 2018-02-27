@@ -8,9 +8,11 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using Todo.Web;
+using Xunit;
 
 namespace FunctionalTests.Web.Controllers
 {
+    [Trait("Category", "Functional Test")]
     public abstract class BaseWebTest
     {
         protected readonly HttpClient _client;
