@@ -1,6 +1,6 @@
 # todoapp
 
-![](http://progressed.io/bar/1)
+![](http://progressed.io/bar/9)
 
 
 > **THIS IS WORK IN PROGRESS**
