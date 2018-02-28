@@ -4,6 +4,7 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+var solution = File("./todoapp.sln");
 
 ///////////////////////////////////////////////////////////////////////////////
 // SETUP / TEARDOWN
@@ -25,9 +26,50 @@ Teardown(ctx =>
 // TASKS
 ///////////////////////////////////////////////////////////////////////////////
 
-Task("Default")
+Task("Clean")
 .Does(() => {
-   Information("Hello Cake!");
+    DotNetCoreClean(solution,
+        new DotNetCoreCleanSettings
+        {
+            Configuration = configuration
+        }
+    );
 });
+
+Task("Restore")
+.Does(() => {
+    DotNetCoreRestore();
+});
+
+Task("Build")
+.IsDependentOn("Clean")
+.IsDependentOn("Restore")
+.Does(() => {
+    DotNetCoreBuild(solution,
+        new DotNetCoreBuildSettings
+        {
+            NoRestore = true
+        }
+    );
+});
+
+Task("Test")
+.IsDependentOn("Build")
+.Does(() => {
+    var projectFiles = GetFiles("./tests/**/*.csproj");
+    foreach(var file in projectFiles)
+    {
+        DotNetCoreTest(file.FullPath,
+            new DotNetCoreTestSettings
+            {
+                NoBuild = true
+            }
+        );
+    }
+});
+
+Task("Default")
+.IsDependentOn("Test");
+
 
 RunTarget(target);
