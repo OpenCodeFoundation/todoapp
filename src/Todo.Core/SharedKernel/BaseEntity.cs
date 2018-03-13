@@ -10,6 +10,7 @@ namespace Techcombd.Todo.Core.SharedKernel
     /// </summary>
     public abstract class BaseEntity
     {
+        public DateTime CreateDate { get; private set; } = DateTime.UtcNow;
         public int Id { get; set; }
     }
 }
